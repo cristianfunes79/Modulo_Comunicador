@@ -30,8 +30,8 @@ RTOS_OPT = -Og
 #######################################
 # Build path
 RTOS_BUILD_DIR = freertos_build
-RTOS_PATH = /home/cfunes/Downloads/FreeRTOSv10.4.1/FreeRTOS
-RTOS_CONFIG = /home/cfunes/projects/CESE_Projects/Modulo_Comunicador
+#RTOS_PATH = /home/cfunes/Downloads/FreeRTOSv10.4.1/FreeRTOS
+#RTOS_CONFIG = /home/cfunes/projects/CESE_Projects/Modulo_Comunicador
 
 ######################################
 # source
