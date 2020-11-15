@@ -31,7 +31,7 @@ RTOS_OPT = -Og
 # Build path
 RTOS_BUILD_DIR = freertos_build
 RTOS_PATH = /home/cfunes/Downloads/FreeRTOSv10.4.1/FreeRTOS
-RTOS_CONFIG = /home/cfunes/Downloads/FreeRTOSv10.4.1/FreeRTOS
+RTOS_CONFIG = /home/cfunes/projects/CESE_Projects/Modulo_Comunicador
 
 ######################################
 # source
@@ -82,11 +82,15 @@ RTOS_OBJECTS = $(addprefix $(RTOS_BUILD_DIR)/,$(notdir $(RTOS_C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(RTOS_C_SOURCES)))
 
 $(RTOS_BUILD_DIR)/%.o: %.c Makefile | $(RTOS_BUILD_DIR) 
-	$(CC) -c $(RTOS_CFLAGS) -Wa,-a,-ad,-alms=$(RTOS_BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+	@echo -e "\e[92mBuilding RTOS C source - $@"
+	@$(CC) -c $(RTOS_CFLAGS) -Wa,-a,-ad,-alms=$(RTOS_BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(RTOS_BUILD_DIR)/$(RTOS_TARGET).a: $(RTOS_BUILD_DIR) $(RTOS_OBJECTS) Makefile
-	$(AR) crs $@ $(RTOS_OBJECTS) 
-	$(SZ) $@
+	@echo -e "\e[92mGenerating RTOS library - $@"
+	@$(AR) crs $@ $(RTOS_OBJECTS) 
+	@echo "========================== Size Info =========================="
+	@$(SZ) $@
+	@echo "==============================================================="
 
 $(RTOS_BUILD_DIR):
 	mkdir $@		

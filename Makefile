@@ -165,20 +165,28 @@ OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
-	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+	@echo "Building C source - $@"
+	@$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
-	$(AS) -c $(CFLAGS) $< -o $@
+	@echo "Building ASM source - $@"
+	@$(AS) -c $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) $(RTOS_BUILD_DIR)/$(RTOS_TARGET).a Makefile
-	$(CC) $(OBJECTS)  $(LDFLAGS) -o $@
-	$(SZ) $@
+	@echo -e "\e[39mBuilding $@"
+	@$(CC) $(OBJECTS)  $(LDFLAGS) -o $@
+	@echo "Built! \O/"
+	@echo "********* Size Info **********"
+	@$(SZ) $@
+	@echo "******************************"
 
 $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
-	$(HEX) $< $@
+	@echo "Generating HEX - $@"
+	@$(HEX) $< $@
 	
 $(BUILD_DIR)/%.bin: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
-	$(BIN) $< $@	
+	@echo "Generating bin - $@"
+	@$(BIN) $< $@	
 	
 $(BUILD_DIR):
 	mkdir $@		
